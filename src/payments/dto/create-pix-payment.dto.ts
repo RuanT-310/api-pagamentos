@@ -1,17 +1,10 @@
-import { IsString, IsNotEmpty, IsNumber, IsOptional, ValidateNested } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, ValidateNested, ArrayNotEmpty, ArrayMinSize } from 'class-validator';
 //import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { PayerDto } from './payer.dto';
+import { ItemDto } from './item.dto';
 
-export class CreatePaymentDto {
-  /* @ApiProperty({
-    description: 'Valor total da transação',
-    example: 1500.00,
-  }) */
-  @IsNumber()
-  @IsNotEmpty()
-  transaction_amount: number;
-
+export class CreatePixPaymentDto {
   /* @ApiProperty({
     description: 'Descrição da compra',
     example: 'Assinatura anual de serviço',
@@ -21,14 +14,6 @@ export class CreatePaymentDto {
   description: string;
 
   /* @ApiProperty({
-    description: 'ID do método de pagamento (ex: pix, boleto)',
-    example: 'pix',
-  }) */
-  @IsString()
-  @IsNotEmpty()
-  payment_method_id: string;
-
-  /* @ApiProperty({
     description: 'Dados do pagador',
     type: PayerDto,
   }) */
@@ -36,4 +21,10 @@ export class CreatePaymentDto {
   @Type(() => PayerDto)
   @IsNotEmpty()
   payer: PayerDto;
+
+  @ArrayNotEmpty({ message: 'Items array should not be empty' })
+  @ValidateNested({ each: true, message: 'Each ponto must be a valid object' })
+  @Type(() => ItemDto)
+  @IsNotEmpty()
+  items: ItemDto[];
 }
