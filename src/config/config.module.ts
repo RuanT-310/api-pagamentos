@@ -9,7 +9,9 @@ import * as Joi from 'joi';
           .default('development'),
         PORT: Joi.number().port().default(3000),
         MONGODB_URI: Joi.string().required(),
+        MERCADO_PAGO_ACCESS_TOKEN: Joi.string().required(),
       }),
+      isGlobal: true,
     })],
 })
 export class ConfigModule {}
