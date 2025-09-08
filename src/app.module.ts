@@ -5,9 +5,10 @@ import { ConfigModule } from './config/config.module';
 import { DatabaseModule } from './database/database.module';
 import { PaymentsModule } from './payments/payments.module';
 import { MpPayment } from './mp-payment/mp-payment';
+import { ProductModule } from './product/product.module';
 
 @Module({
-  imports: [ConfigModule, DatabaseModule, PaymentsModule],
+  imports: [ConfigModule, DatabaseModule, PaymentsModule, ProductModule],
   controllers: [AppController],
   providers: [AppService, MpPayment],
 })

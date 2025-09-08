@@ -1,6 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { Product, ProductSchema } from './mongoose/product-mongoose.schema';
+import { ProductMongooseRepository } from './mongoose/product-mongoose.repository';
+
+const DynamicMongooseModuleModule = MongooseModule.forFeature([{ name: Product.name, schema: ProductSchema }])
 
 @Module({
     imports: [MongooseModule.forRootAsync({
@@ -27,6 +31,11 @@ import { MongooseModule } from '@nestjs/mongoose';
             }
         },
         inject: [ConfigService],
-    })],
+    }), DynamicMongooseModuleModule],
+    providers: [ProductMongooseRepository],
+    exports: [
+        DynamicMongooseModuleModule,
+        ProductMongooseRepository
+    ],
 })
 export class DatabaseModule {}
